@@ -27,3 +27,9 @@ instructor.greeting
 student = Student.new
 student.name = "Christina"
 student.greeting
+
+instructor.teach
+student.learn
+
+#The below doesn't work because the teach method is defined in the Instructor Class and is not inherited in the Student class
+student.teach
