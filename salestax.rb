@@ -1,32 +1,52 @@
 class Item 
 	attr_accessor :type, :price, :import
+
+	def initialize(t, p, i)
+		@type = t
+		@price = p
+		@import = i 
+	end 
+	def item_tax
 	@salestax = 0.1
 	@importtax = 0.05
-	def initialize(t, p, i)
-		type = t
-		price = p
-		import = i 
-	end 
-	def tax_amount
-
 		if (type == "book" || type == "med" || type == "food")
 			if import == false
 			tax = 0
 			else 
-				tax = @importtax
+				tax = @importtax*@price
 			end
 		else
 			if import == false
-				tax = @salestax
+				tax = @salestax*@price
 			else
-				tax = @salestax #+ @importtax
+				tax = (@salestax + @importtax)*@price
 			end
 		end
-		return tax
+	end
+
+		def item_total
+	@salestax = 0.1
+	@importtax = 0.05
+		if (type == "book" || type == "med" || type == "food")
+			if import == false
+			tax = @price
+			else 
+				tax = (1+@importtax)*@price
+			end
+		else
+			if import == false
+				tax = (1+@salestax)*@price
+			else
+				tax = (1+ @salestax + @importtax)*@price
+			end
+		end
 	end
 end
 
-first = Item.new("book", 50, false)
-puts "#{first.tax_amount}"
+
+
+first = Item.new("food", 30, true)
+puts "#{first.item_tax}"
+puts "#{first.item_total}"
 
 
