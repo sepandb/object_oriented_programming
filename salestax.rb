@@ -8,39 +8,33 @@ class Item
 	    @importtax = 0.05
 	end
 
-	def item_tax
 
-		if (type == "chocolate" || type == "med" || type == "food")
+	def tax_rate
+		tr = 0
+		if (type == 'chocolate' || type == 'med' || type == 'food')
 			if import == false
-			tax = 0
+				tr = 0
 			else
-				tax = @importtax*@price
+				tr = @importtax
 			end
 		else
 			if import == false
-				tax = @salestax*@price
+				tr = @salestax
 			else
-				tax = (@salestax + @importtax)*@price
+				tr = @salestax+@importtax
 			end
 		end
+		return tr
+	end
+
+	def item_tax
+		price* tax_rate
 	end
 
 	def item_total
-
-		if (type == "chocolate" || type == "med" || type == "food")
-			if import == false
-			tax = @price
-			else
-				tax = (1+@importtax)*@price
-			end
-		else
-			if import == false
-				tax = (1+@salestax)*@price
-			else
-				tax = (1+ @salestax + @importtax)*@price
-			end
-		end
+		price + item_tax
 	end
+
 end
 
 
@@ -108,3 +102,5 @@ newcart = Cart.new
 newcart.add_item(object1)
 newcart.add_item(object2)
 newcart.generate_receipt(1)
+
+puts "#{object1.return_self}"
