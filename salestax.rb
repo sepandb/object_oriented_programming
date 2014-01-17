@@ -1,18 +1,19 @@
-class Item 
+class Item
 	attr_accessor :type, :price, :import
-
 	def initialize(t, p, i)
 		@type = t
 		@price = p
-		@import = i 
-	end 
+		@import = i
+		@salestax = 0.1
+	    @importtax = 0.05
+	end
+
 	def item_tax
-	@salestax = 0.1
-	@importtax = 0.05
+
 		if (type == "chocolate" || type == "med" || type == "food")
 			if import == false
 			tax = 0
-			else 
+			else
 				tax = @importtax*@price
 			end
 		else
@@ -25,12 +26,11 @@ class Item
 	end
 
 	def item_total
-	@salestax = 0.1
-	@importtax = 0.05
+
 		if (type == "chocolate" || type == "med" || type == "food")
 			if import == false
 			tax = @price
-			else 
+			else
 				tax = (1+@importtax)*@price
 			end
 		else
@@ -44,52 +44,67 @@ class Item
 end
 
 
-class Cart < Item
+class Cart
 
-	i1first = Item.new("book", 12.49, false)
-	i1second = Item.new("music", 14.99, false)
-	i1third = Item.new("chocolate", 0.85, false)
-	i1salestax = (i1first.item_tax + i1second.item_tax + i1third.item_tax).round(2)
-	i1total = (i1first.price + i1second.price + i1third.price + i1salestax).round(2)
+	attr_accessor :container
 
-	puts "Output 1:"
-	puts "1 #{i1first.type}: #{i1first.price}"
-	puts "1 #{i1second.type}: #{i1second.price}"
-	puts "1 #{i1third.type}: #{i1third.price}"
-	puts "Sales Taxes: #{i1salestax}"
-	puts "Total: #{i1total}"
+	def initialize
+		@container = Array.new
+	end
 
-	i2first = Item.new("chocolate", 10, true)
-	i2second = Item.new("perfume", 47.50, true)
-	i2salestax = (i2first.item_tax + i2second.item_tax).round(2)
-	i2total = (i2first.price + i2second.price + i2salestax).round(2)
+	def add_item(i)
+		@container.push(i)
+	end
 
+	def print_items
+		puts "#{@container}"
+	end
 
-	puts "Output 2:"
-	puts "1 imported #{i2first.type}: #{i2first.price}"
-	puts "1 imported #{i2second.type}: #{i2second.price}"
-	puts "Sales Taxes: #{i2salestax}"
-	puts "Total: #{i2total}"
+	def total_price
+		total = 0
+		@container.each do |item|
+			item_price = item.price
+			total = total + item_price
+		end
+	    return total
+	end
 
-	i3first = Item.new("perfume", 32.19, true)
-	i3second = Item.new("perfume", 20.89, false)
-	i3third = Item.new("med", 9.75, false)
-	i3fourth = Item.new("chocolate", 11.85, true)
-	i3salestax = (i3first.item_tax + i3second.item_tax + i3third.item_tax + i3fourth.item_tax).round(2)
-	i3total = (i3first.price + i3second.price + i3third.price + i3fourth.price + i3salestax).round(2)
+	def number_of_items
+		@container.count
+	end
 
-	puts "Output 3:"
-	puts "1 imported #{i3first.type}: #{i3first.price}"
-	puts "1 #{i3second.type}: #{i3second.price}"
-	puts "1 #{i3third.type}: #{i3third.price}"
-	puts "1 imported #{i3fourth.type}: #{i3fourth.price}"	
-	puts "Sales Taxes: #{i3salestax}"
-	puts "Total: #{i3total}"
+	def generate_receipt(x)
+		puts "Output #{x}: "
+		@container.each do |item|
+			puts "1 #{item.type} : $#{item.price}"
+		end
+		puts "Sales Tax: $#{taxes_total}"
+		puts "Total: #{total_price_with_taxes}"
+	end
 
+	def taxes_total
+		total = 0
+		@container.each do |item|
+			tax = item.item_tax
+			total = tax + total
+		end
+		return total
+	end
 
+	def total_price_with_taxes
+		total = 0
+		@container.each do |item|
+			item_price_with_tax = item.item_total
+			total = total + item_price_with_tax
+		end
+		return total
+	end
 
 end
 
-
-
-
+object1 = Item.new("book", 100,true)
+object2 = Item.new("chocolate", 200, true)
+newcart = Cart.new
+newcart.add_item(object1)
+newcart.add_item(object2)
+newcart.generate_receipt(1)
