@@ -99,8 +99,16 @@ end
 object1 = Item.new("book", 100,true)
 object2 = Item.new("chocolate", 200, true)
 newcart = Cart.new
+cart2 = Cart.new
 newcart.add_item(object1)
 newcart.add_item(object2)
 newcart.generate_receipt(1)
 
-puts "#{object1.return_self}"
+object3=  Item.new("med", 49.99, false)
+object4=  Item.new("CD", 59.99, true)
+object5=  Item.new("chocolate", 19.99, false)
+
+cart2.add_item(object3)
+cart2.add_item(object4)
+cart2.add_item(object5)
+cart2.generate_receipt(2)
