@@ -24,15 +24,12 @@ class Grid
 			puts "direction: #{r.direction}"
 			puts ""
 		end
-
 	end
-
-
 end
 
+#change grid size here
 grid = Grid.new(5, 5)
 
 #change coordinates/directions/instructions below
 grid.add_rover(1,2, "N", "LMLMLMLMM")
 grid.add_rover(3,3, "E", "MMRMMRMRRM")
-

@@ -65,13 +65,5 @@ class Rover
 				end
 			end
 		end
-		# end
-
-
 	end
-
-
 end
-
-# rover1 = Rover.new(1,2, "N", "LMLMLMLMM")
-# rover2 = Rover.new(3,3, "E", "MMRMMRMRRM")
